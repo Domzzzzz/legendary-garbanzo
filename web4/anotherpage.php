@@ -1,18 +1,23 @@
 <?php
-    if(isset($_COOKIE['username'])){
-        echo 'User '. $_COOKIE['username'] . ' is set<br>';
-    } else {
-        echo 'User is not set';
-    }
+	session_start();
+ 
+	if (!isset($_SESSION['id']) ||(trim ($_SESSION['id']) == '')) {
+		header('index.php');
+		exit();
+	}
+	include('conn.php');
+	$query=mysqli_query($conn,"select * from user where userid='".$_SESSION['id']."'");
+	$row=mysqli_fetch_assoc($query);
 ?>
-
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Still Logged In</title>
+<title>Setting Up Cookie on User Login</title>
 </head>
 <body>
-    You are still logged in...
+	<h2>Login Success</h2>
+	<?php echo $row['fullname']; ?>
+	<br>
+	<a  href="logout.php">Logout</a>
 </body>
 </html>
