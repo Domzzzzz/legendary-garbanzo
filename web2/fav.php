@@ -1,8 +1,5 @@
-<html>
-<head><title>Your Favorite</title></head>
-<body>
-    <?php
-        
-    ?>
-</body>
-</html>
+<form action=""method="">
+	<input type="text" name="name">
+	<input type="submit">
+	appropriate message
+</form>	
