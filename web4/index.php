@@ -1,18 +1,28 @@
 <?php
-// set cookies
-
+	session_start();
+	include('conn.php');
 ?>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set Cookie Data</title>
+<title>Login Using Cookie with Logout</title>
 </head>
 <body>
-    <form action="<?php //<code>// ?>" method="">
-    Name: <input type="text" name="username">
-    Password: <input type="text" name="password"><br/><br/>
-    <input type="submit" value="Log Me In">
-    </form>
+	<h2>Login Form</h2>
+	<form method="POST" action="login.php">
+	<label>Username:</label> <input type="text" value="<?php if (isset($_COOKIE["user"])){echo $_COOKIE["user"];}?>" name="username">
+	<label>Password:</label> <input type="password" value="<?php if (isset($_COOKIE["pass"])){echo $_COOKIE["pass"];}?>" name="password"><br><br>
+	<input type="checkbox" name="remember" <?php if (isset($_COOKIE["user"]) && isset($_COOKIE["pass"])){ echo "checked";}?>> Remember me <br><br>
+	<input type="submit" value="Login" name="login">
+	</form>
+ 
+	<span>
+	<?php
+		if (isset($_SESSION['message'])){
+			echo $_SESSION['message'];
+		}
+		unset($_SESSION['message']);
+	?>
+</span>
 </body>
 </html>
