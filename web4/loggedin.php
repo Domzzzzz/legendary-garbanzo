@@ -1,14 +1,33 @@
 <?php
-   // test cookies if is set, display if set
+	if(isset($_POST['login'])){
+ 
+		session_start();
+		include('conn.php');
+ 
+		$username=$_POST['username'];
+		$password=$_POST['password'];
+ 
+		$query=mysqli_query($conn,"select * from `user` where username='$username' && password='$password'");
+ 
+		if (mysqli_num_rows($query) == 0){
+			$_SESSION['message']="Login Failed. User not Found!";
+			header('location:index.php');
+		}
+		else{
+			$row=mysqli_fetch_array($query);
+ 
+			if (isset($_POST['remember'])){
+				//set up cookie
+				setcookie("user", $row['username'], time() + (86400 * 30)); 
+				setcookie("pass", $row['password'], time() + (86400 * 30)); 
+			}
+ 
+			$_SESSION['id']=$row['userid'];
+			header('location:success.php');
+		}
+	}
+	else{
+		header('location:index.php');
+		$_SESSION['message']="Please Login!";
+	}
 ?>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logged In</title>
-</head>
-<body>
-    You are logged in and can access all pages on this web site. <br> <a href="anotherpage.php">
-    <br>Visit another page on this site?</a>
-</body>
-</html>
